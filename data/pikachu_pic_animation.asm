@@ -336,7 +336,7 @@ pikapicanimgfx: MACRO
 PikaPicAnimGFX_Null_id::
 	dbbw            1, $39,$0000     ; 00
 	pikapicanimgfx -1, Pic_e4000     ; 01
-	pikapicanimgfx  5, GFX_e40cc     ; 02
+	pikapicanimgfx  6, GFX_e40cc     ; 02
 	pikapicanimgfx -1, Pic_e411c     ; 03
 	pikapicanimgfx 10, GFX_e41d2     ; 04
 	pikapicanimgfx -1, Pic_e4272     ; 05
