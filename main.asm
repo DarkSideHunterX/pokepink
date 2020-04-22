@@ -2023,8 +2023,8 @@ GFX_e4a99:
 INCBIN "gfx/pikachu/unknown_e4a99.2bpp"
 Pic_e4b39:
 INCBIN "gfx/pikachu/unknown_e4b39.pic"
-GFX_e4bde:
-INCBIN "gfx/pikachu/unknown_e4bde.2bpp"
+Pic_e4bde:
+INCBIN "gfx/pikachu/unknown_e4bde.pic"
 Pic_e4c3e:
 INCBIN "gfx/pikachu/unknown_e4c3e.pic"
 GFX_e4ce0:

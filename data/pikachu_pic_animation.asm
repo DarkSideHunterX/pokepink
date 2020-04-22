@@ -117,7 +117,7 @@ PikaPicAnimScript8:
 PikaPicAnimScript9:
 	pikapic_setduration 56
 	pikapic_loadgfx Pic_e4b39
-	pikapic_loadgfx GFX_e4bde
+	pikapic_loadgfx Pic_e4bde
 	pikapic_animation PikaPicAnimBGFrames_4, $80, $0, $0
 	pikapic_animation PikaPicAnimBGFrames_14, $99, $0, $0
 	pikapic_waitbgmap
@@ -352,7 +352,7 @@ PikaPicAnimGFX_Null_id::
 	pikapicanimgfx -1, Pic_e49d1     ; 0f
 	pikapicanimgfx 10, GFX_e4a99     ; 00
 	pikapicanimgfx -1, Pic_e4b39     ; 11
-	pikapicanimgfx  6, GFX_e4bde     ; 12
+	pikapicanimgfx -1, Pic_e4bde     ; 12
 	pikapicanimgfx -1, Pic_e4c3e     ; 13
 	pikapicanimgfx 25, GFX_e4ce0     ; 14
 	pikapicanimgfx 25, GFX_e4e70     ; 15

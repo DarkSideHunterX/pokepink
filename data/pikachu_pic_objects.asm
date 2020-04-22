@@ -154,11 +154,11 @@ PikaPicAnimBGFrames_13:
 
 PikaPicAnimBGFrames_14:
 	pikaframedelay                  2
-	pikaframe PikaAnimTilemap_22,   2
+	pikaframe PikaAnimTilemap_1,    2
 	pikaframedelay                  2
-	pikaframe PikaAnimTilemap_22,   2
+	pikaframe PikaAnimTilemap_1,    2
 	pikaframedelay                 20
-	pikaframe PikaAnimTilemap_22,   2
+	pikaframe PikaAnimTilemap_1,    2
 	pikaframeend
 
 PikaPicAnimBGFrames_15:
