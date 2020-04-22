@@ -177,25 +177,32 @@ OldManPic:	       INCBIN "pic/trainer/oldman.pic"
 ProfOakPicBack:   INCBIN "pic/ytrainer/prof.oakb.pic"
 
 LoadYellowTitleScreenGFX:
+; copy the logo to vram
 	ld hl, PokemonLogoGraphics
 	ld de, vChars2
 	ld bc, 115 * $10
 	ld a, BANK(PokemonLogoGraphics) ; redundant because this function is in bank3d
 	call FarCopyData
-	ld hl, YellowLogoGraphics + 35 * $10
+
+; copy the "yellow" to the correct position in vram
+	ld hl, PokemonLogoExtraGraphics
 	ld de, vChars0 + 253 * $10
-	ld bc, 3 * $10
-	ld a, BANK(YellowLogoGraphics)
+	ld bc, PokemonLogoExtraGraphicsEnd - PokemonLogoExtraGraphics
+	ld a, BANK(PokemonLogoExtraGraphics)
 	call FarCopyData
-	ld hl, YellowLogoGraphics + 38 * $10
+
+; copy the pikachu's graphics
+	ld hl, PikachuLogoGraphics
 	ld de, vChars1
-	ld bc, 64 * $10
-	ld a, BANK(YellowLogoGraphics)
+	ld bc, PikachuLogoGraphicsEnd - PikachuLogoGraphics
+	ld a, BANK(PikachuLogoGraphics)
 	call FarCopyData
-	ld hl, YellowLogoGraphics + 102 * $10
+
+; copy the tiles for the eyes
+	ld hl, PikachuLogoEyes
 	ld de, vChars0 + 240 * $10
-	ld bc, 12 * $10
-	ld a, BANK(YellowLogoGraphics)
+	ld bc, PikachuLogoEyesEnd - PikachuLogoEyes
+	ld a, BANK(PikachuLogoEyes)
 	call FarCopyData
 	ret
 
@@ -298,10 +305,16 @@ TitleScreenPikachuTilemap:
 	db $00, $b9, $ba, $8a, $8a, $8a, $8a, $8a, $8a, $bb, $bc, $00
 	db $00, $00, $bd, $8a, $8a, $8a, $8a, $8a, $8a, $be, $bf, $00
 
-PokemonLogoGraphics:	     INCBIN "gfx/pokemon_logo.2bpp"
+; PokemonLogoGraphics and PokemonLogoBubbleGraphics belong to the same image
+; and as such should be in the same PNG file
+PokemonLogoGraphics:	     INCBIN "gfx/titlescreen/pokemon_logo.2bpp"
 PokemonLogoGraphicsEnd:
-YellowLogoGraphics:	      INCBIN "gfx/yellow_titlescreen.2bpp"
-YellowLogoGraphicsEnd:
+PokemonLogoExtraGraphics:     INCBIN "gfx/titlescreen/extra_graphics.2bpp"
+PokemonLogoExtraGraphicsEnd:
+PikachuLogoGraphics:	     INCBIN "gfx/titlescreen/pikachu.2bpp"
+PikachuLogoGraphicsEnd:
+PikachuLogoEyes:		     INCBIN "gfx/titlescreen/eyes.2bpp"
+PikachuLogoEyesEnd:
 
 INCLUDE "engine/menu/link_menu.asm"
 
