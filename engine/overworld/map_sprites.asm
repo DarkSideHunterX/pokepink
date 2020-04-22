@@ -62,7 +62,7 @@ LoadSpriteSetFromMapHeader:
 	ld bc, (wSpriteSetID - wSpriteSet)
 	xor a
 	call FillMemory
-	ld a, SPRITE_PIKACHU ; load Pikachu separately
+	ld a, SPRITE_CLEFAIRY ; load Pikachu separately
 	ld [wSpriteSet], a
 	ld hl, wSprite01StateData1
 	ld a, 14
@@ -122,7 +122,7 @@ CheckForFourTileSprite:
 ; Checks for a sprite added in yellow
 ; Returns no carry if the sprite is Pikachu, as its sprite is handled separately
 ; Else, returns carry if the sprite uses 4 tiles
-	cp SPRITE_PIKACHU       ; is this the Pikachu Sprite?
+	cp SPRITE_CLEFAIRY      ; is this the Pikachu Sprite?
 	ret z                   ; return if yes
 
 	cp SPRITE_BALL          ; is this a four tile sprite?
