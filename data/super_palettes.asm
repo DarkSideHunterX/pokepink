@@ -78,16 +78,12 @@ SuperPalettes:
 	RGB  3,  2,  2
 
 	; PAL_LOGO1
-	RGB 31, 31, 30
-	RGB 30, 30, 17
-	RGB 21,  0,  4
-	RGB 21,  0,  4
+	dw $7fff, $7c2d, $3d36, $0c63
+	; it might be a good idea to convert these back to RGB15
+	; but I already had them as hex 
 
-	; PAL_LOGO2
-	RGB 31, 31, 30
-	RGB 30, 30, 17
-	RGB 18, 18, 24
-	RGB  7,  7, 16
+	; PAL_LOGO2 (PoKeMoN text)
+	dw $7fff, $671e, $3d36, $20ae
 
 	; PAL_0F
 	RGB 31, 31, 30
@@ -96,10 +92,7 @@ SuperPalettes:
 	RGB  3,  2,  2
 
 	; PAL_MEWMON
-	RGB 31, 31, 30
-	RGB 31, 30, 22
-	RGB 27, 16, 16
-	RGB  6,  6,  6
+	dw $7fff, $671e, $19b5, $0c63
 
 	; PAL_BLUEMON
 	RGB 31, 31, 30
@@ -319,16 +312,12 @@ GBCBasePalettes:
 	RGB  1,  1,  1
 
 	; PAL_LOGO1
-	RGB 31, 31, 31
-	RGB 31, 31,  0
-	RGB 31,  0,  0
-	RGB 31,  0,  0
+	dw $7fff, $7c2d, $3d36, $0c63
+	; it might be a good idea to convert these back to RGB15
+	; but I already had them as hex 
 
-	; PAL_LOGO2
-	RGB 31, 31, 31
-	RGB 31, 31,  0
-	RGB  7,  7, 25
-	RGB  0,  0, 17
+	; PAL_LOGO2 (PoKeMoN text)
+	dw $7fff, $671e, $3d36, $20ae
 
 	; PAL_0F
 	RGB 31, 31, 31
@@ -337,10 +326,7 @@ GBCBasePalettes:
 	RGB  1,  1,  1
 
 	; PAL_MEWMON
-	RGB 31, 31, 31
-	RGB 31, 31,  0
-	RGB 31,  1,  1
-	RGB  3,  3,  3
+	dw $7fff, $671e, $19b5, $0c63
 
 	; PAL_BLUEMON
 	RGB 31, 31, 31

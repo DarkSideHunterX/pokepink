@@ -225,10 +225,13 @@ TitleScreen_PlacePikaSpeechBubble:
 	ret
 
 TitleScreen_PlacePikachu:
+; place Clefairy in the screen with the tilemap
 	coord hl, 3, 9
 	ld de, TitleScreenPikachuTilemap
 	lb bc, 8, 12
 	call Bank3D_CopyBox
+
+; place rightmost part of clefairy (not included in the tilemap for some reason)
 	coord hl, 15, 13
 	ld [hl], $ad
 	coord hl, 15, 14
@@ -237,9 +240,17 @@ TitleScreen_PlacePikachu:
 	ld [hl], $bc
 	coord hl, 15, 16
 	ld [hl], $c1
+
+; place clefairy's eyes where they belong
 	ld hl, TitleScreenPikachuEyesOAMData
 	ld de, wOAMBuffer
 	ld bc, $20
+	call CopyData
+
+; set clefairy's blush and mouth
+	ld hl, TitleScreenClefairyBlushMouthOAMData
+	ld de, wOAMBuffer + $20
+	ld bc, $18
 	call CopyData
 	ret
 
@@ -255,6 +266,22 @@ TitleScreenPikachuEyesOAMData:
 	db $74, $62, $f1, $02
 	db $7c, $5a, $f2, $02
 	db $7c, $62, $f3, $02
+
+TitleScreenClefairyBlushMouthOAMData:
+; it might be a good idea to create a macro for oam attributes
+; so X, Y, flags and tiles are easier to see and understand
+; but for now these ugly maths will do
+; they take the tile number and convert it to screen space coordinates
+; so the blush and mouth with the correct color are in the correct place
+; blush
+	db $0e * 8 + 16, $07 * 8 + 8, $c2, $01
+	db $0e * 8 + 16, $08 * 8 + 8, $c3, $01
+	db $0e * 8 + 16, $0b * 8 + 8, $c4, $01
+	db $0e * 8 + 16, $0c * 8 + 8, $c5, $01
+
+; mouth
+	db $0f * 8 + 16, $09 * 8 + 8, $c6, $01
+	db $0f * 8 + 16, $0a * 8 + 8, $c7, $01
 
 Bank3D_CopyBox:
 ; copy cxb (xy) screen area from de to hl
