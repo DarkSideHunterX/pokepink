@@ -24,7 +24,7 @@ PikaPicAnimThunderboltPals:
 Data_fe26b:
 	pikapic_loadgfx Pic_e4000
 	pikapic_loadgfx Pic_e49d1
-	pikapic_loadgfx PikachuSprite
+	pikapic_loadgfx ClefairySprite
 	pikapic_animation PikaPicAnimBGFrames_1, $80, $0, $0
 	pikapic_animation PikaPicAnimBGFrames_2, $b2, $5, $5
 	pikapic_animation PikaPicAnimBGFrames_3, $b6, $5, $5
@@ -396,4 +396,4 @@ PikaPicAnimGFX_Null_id::
 	pikapicanimgfx 25, GFX_f0b64     ; 3b
 	pikapicanimgfx -1, Pic_f0cf4     ; 3c
 	pikapicanimgfx 25, GFX_f0d82     ; 3d
-	pikapicanimgfx 24, PikachuSprite ; 3e
+	pikapicanimgfx 24, ClefairySprite; 3e
