@@ -346,11 +346,11 @@ PikaPicAnimGFX_Null_id::
 	pikapicanimgfx -1, Pic_e458b     ; 09
 	pikapicanimgfx  4, GFX_e463b     ; 0a
 	pikapicanimgfx -1, Pic_e467b     ; 0b
-	pikapicanimgfx  4, GFX_e472e     ; 0c
+	pikapicanimgfx  2, GFX_e472e     ; 0c
 	pikapicanimgfx -1, Pic_e476e     ; 0d
 	pikapicanimgfx 25, GFX_e4841     ; 0e
 	pikapicanimgfx -1, Pic_e49d1     ; 0f
-	pikapicanimgfx 10, GFX_e4a99     ; 00
+	pikapicanimgfx  6, GFX_e4a99     ; 00
 	pikapicanimgfx -1, Pic_e4b39     ; 11
 	pikapicanimgfx -1, Pic_e4bde     ; 12
 	pikapicanimgfx -1, Pic_e4c3e     ; 13

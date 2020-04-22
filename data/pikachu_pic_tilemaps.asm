@@ -142,17 +142,17 @@ PikaAnimTilemap_17:
 PikaAnimTilemap_18:
 	db 5, 5
 	db $ff, $ff, $ff, $ff, $ff
+	db $ff, $ff, $ff, $ff, $ff
 	db $ff, $ff, $ff, $00, $01
 	db $ff, $ff, $ff, $02, $03
-	db $ff, $ff, $ff, $ff, $ff
 	db $ff, $ff, $ff, $ff, $ff
 
 PikaAnimTilemap_19:
 	db 5, 5
 	db $ff, $ff, $ff, $ff, $ff
 	db $ff, $ff, $ff, $ff, $ff
+	db $ff, $ff, $ff, $ff, $ff
 	db $00, $01, $ff, $ff, $ff
-	db $02, $03, $ff, $ff, $ff
 	db $ff, $ff, $ff, $ff, $ff
 
 PikaAnimTilemap_20:
@@ -167,8 +167,8 @@ PikaAnimTilemap_21:
 	db 5, 5
 	db $ff, $ff, $ff, $ff, $ff
 	db $ff, $ff, $ff, $ff, $ff
-	db $00, $01, $02, $03, $04
-	db $05, $06, $07, $08, $09
+	db $ff, $00, $01, $02, $ff
+	db $ff, $03, $04, $05, $ff
 	db $ff, $ff, $ff, $ff, $ff
 
 PikaAnimTilemap_22:
