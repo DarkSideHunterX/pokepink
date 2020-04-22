@@ -192,17 +192,17 @@ LoadYellowTitleScreenGFX:
 	call FarCopyData
 
 ; copy the pikachu's graphics
-	ld hl, PikachuLogoGraphics
+	ld hl, ClefairyLogoGraphics
 	ld de, vChars1
-	ld bc, PikachuLogoGraphicsEnd - PikachuLogoGraphics
-	ld a, BANK(PikachuLogoGraphics)
+	ld bc, ClefairyLogoGraphicsEnd - ClefairyLogoGraphics
+	ld a, BANK(ClefairyLogoGraphics)
 	call FarCopyData
 
 ; copy the tiles for the eyes
-	ld hl, PikachuLogoEyes
+	ld hl, ClefairyLogoEyes
 	ld de, vChars0 + 240 * $10
-	ld bc, PikachuLogoEyesEnd - PikachuLogoEyes
-	ld a, BANK(PikachuLogoEyes)
+	ld bc, ClefairyLogoEyesEnd - ClefairyLogoEyes
+	ld a, BANK(ClefairyLogoEyes)
 	call FarCopyData
 	ret
 
@@ -225,18 +225,18 @@ TitleScreen_PlacePikaSpeechBubble:
 	ret
 
 TitleScreen_PlacePikachu:
-	coord hl, 4, 8
+	coord hl, 3, 9
 	ld de, TitleScreenPikachuTilemap
-	lb bc, 9, 12
+	lb bc, 8, 12
 	call Bank3D_CopyBox
-	coord hl, 16, 10
-	ld [hl], $96
-	coord hl, 16, 11
-	ld [hl], $9d
-	coord hl, 16, 12
-	ld [hl], $a7
-	coord hl, 16, 13
-	ld [hl], $b1
+	coord hl, 15, 13
+	ld [hl], $ad
+	coord hl, 15, 14
+	ld [hl], $b6
+	coord hl, 15, 15
+	ld [hl], $bc
+	coord hl, 15, 16
+	ld [hl], $c1
 	ld hl, TitleScreenPikachuEyesOAMData
 	ld de, wOAMBuffer
 	ld bc, $20
@@ -244,14 +244,17 @@ TitleScreen_PlacePikachu:
 	ret
 
 TitleScreenPikachuEyesOAMData:
-	db $60, $40, $f1, $22
-	db $60, $48, $f0, $22
-	db $68, $40, $f3, $22
-	db $68, $48, $f2, $22
-	db $60, $60, $f0, $02
-	db $60, $68, $f1, $02
-	db $68, $60, $f2, $02
-	db $68, $68, $f3, $02
+; left eye
+	db $74, $43, $f1, $22
+	db $74, $4b, $f0, $22
+	db $7c, $43, $f3, $22
+	db $7c, $4b, $f2, $22
+
+; right eye
+	db $74, $5a, $f0, $02
+	db $74, $62, $f1, $02
+	db $7c, $5a, $f2, $02
+	db $7c, $62, $f3, $02
 
 Bank3D_CopyBox:
 ; copy cxb (xy) screen area from de to hl
@@ -274,13 +277,13 @@ Bank3D_CopyBox:
 
 TitleScreenPokemonLogoTilemap:
 ; 16x7 (xy)
-	db $f4, $f4, $f4, $f4, $f4, $f4, $49, $f4, $72, $30, $f4, $f4, $f4, $f4, $f4, $f4
-	db $fd, $01, $02, $03, $04, $05, $06, $07, $08, $09, $0a, $0b, $f4, $0d, $0e, $0f
+	db $f5, $f5, $f5, $f5, $f5, $f5, $49, $f5, $72, $30, $f5, $f5, $f5, $f5, $f5, $f5
+	db $fd, $01, $02, $03, $04, $05, $06, $07, $08, $09, $0a, $0b, $f5, $0d, $0e, $0f
 	db $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $1a, $1b, $1c, $1d, $1e, $1f
 	db $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $2a, $2b, $2c, $2d, $2e, $2f
-	db $f4, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3a, $3b, $3c, $3d, $3e, $3f
-	db $f4, $41, $42, $43, $44, $45, $46, $47, $48, $f4, $4a, $4b, $4c, $4d, $4e, $4f
-	db $f4, $6a, $6b, $6c, $6d, $f4, $f4, $f4, $f4, $f4, $f4, $6e, $6f, $70, $71, $f4
+	db $f5, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3a, $3b, $3c, $3d, $3e, $3f
+	db $f5, $41, $42, $43, $44, $45, $46, $47, $48, $f5, $4a, $4b, $4c, $4d, $4e, $4f
+	db $f5, $6a, $6b, $6c, $6d, $f5, $f5, $f5, $f5, $f5, $f5, $6e, $6f, $70, $71, $f5
 
 Pointer_f4669:
 ; Unreferenced
@@ -294,27 +297,26 @@ TitleScreenPikaBubbleTilemap:
 	db $6d, $5e, $5f, $60, $61, $62, $63
 
 TitleScreenPikachuTilemap:
-; 12x9 (xy)
-	db $80, $81, $82, $83, $00, $00, $00, $00, $84, $85, $86, $87
-	db $88, $89, $8a, $8b, $8c, $8d, $8d, $8e, $8f, $8a, $90, $91
-	db $00, $92, $93, $8a, $8a, $8a, $8a, $8a, $8a, $94, $95, $00
-	db $00, $00, $97, $8a, $8a, $98, $99, $8a, $8a, $9a, $9b, $9c
-	db $00, $00, $9e, $9f, $a0, $a1, $a2, $a3, $a4, $a5, $a6, $8a
-	db $00, $a8, $a9, $aa, $8a, $ab, $ac, $8a, $ad, $ae, $af, $b0
-	db $00, $b2, $b3, $b4, $8a, $8a, $8a, $8a, $b5, $b6, $b7, $b8
-	db $00, $b9, $ba, $8a, $8a, $8a, $8a, $8a, $8a, $bb, $bc, $00
-	db $00, $00, $bd, $8a, $8a, $8a, $8a, $8a, $8a, $be, $bf, $00
+; 12x8 (xy)
+	db $00, $80, $81, $82, $83, $84, $85, $86, $87, $88, $89, $8a
+	db $00, $8b, $8c, $8d, $8e, $8f, $90, $91, $92, $93, $94, $95
+	db $00, $96, $97, $98, $99, $9a, $9b, $9c, $9d, $9e, $9f, $a0
+	db $00, $00, $a1, $a2, $9e, $a3, $a4, $a5, $a6, $9e, $a7, $00
+	db $a8, $a9, $aa, $9a, $9e, $9e, $9e, $9e, $9e, $9e, $ab, $ac
+	db $ae, $af, $9e, $9e, $b0, $b1, $b2, $b3, $b4, $b5, $9e, $9e
+	db $96, $b7, $b8, $9e, $9e, $9e, $b9, $ba, $9e, $9e, $9e, $bb
+	db $00, $00, $bd, $be, $9e, $9e, $9e, $9e, $9e, $9e, $bf, $c0
 
 ; PokemonLogoGraphics and PokemonLogoBubbleGraphics belong to the same image
 ; and as such should be in the same PNG file
 PokemonLogoGraphics:	     INCBIN "gfx/titlescreen/pokemon_logo.2bpp"
 PokemonLogoGraphicsEnd:
-PokemonLogoExtraGraphics:     INCBIN "gfx/titlescreen/extra_graphics.2bpp"
+PokemonLogoExtraGraphics:    INCBIN "gfx/titlescreen/extra_graphics.2bpp"
 PokemonLogoExtraGraphicsEnd:
-PikachuLogoGraphics:	     INCBIN "gfx/titlescreen/pikachu.2bpp"
-PikachuLogoGraphicsEnd:
-PikachuLogoEyes:		     INCBIN "gfx/titlescreen/eyes.2bpp"
-PikachuLogoEyesEnd:
+ClefairyLogoGraphics:	     INCBIN "gfx/titlescreen/clefairy.2bpp"
+ClefairyLogoGraphicsEnd:
+ClefairyLogoEyes:		     INCBIN "gfx/titlescreen/eyes.2bpp"
+ClefairyLogoEyesEnd:
 
 INCLUDE "engine/menu/link_menu.asm"
 
