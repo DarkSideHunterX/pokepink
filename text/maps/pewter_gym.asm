@@ -172,7 +172,7 @@ _PewterGymGuyText::
 	line "get happening!"
 
 	para "It will be tough"
-	line "for your PIKACHU"
+	line "for your CLEFAIRY"
 	cont "at this GYM!"
 
 	para "Electric attacks"

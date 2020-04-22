@@ -2853,7 +2853,7 @@ IsSurfingPikachuInParty::
 	ld b, SURF
 .loop
 	ld a, [hl]
-	cp PIKACHU
+	cp CLEFAIRY
 	jr nz, .notPikachu
 	push hl
 	ld de, $8

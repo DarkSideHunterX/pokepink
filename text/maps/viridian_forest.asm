@@ -64,7 +64,7 @@ _ViridianFrstAfterBattleText3::
 
 _ViridianForestBattleTextPikaGirl::
 	text "Hi, do you have a"
-	line "PIKACHU?"
+	line "CLEFAIRY?"
 	done
 
 _ViridianForestEndBattleTextPikaGirl::
@@ -75,7 +75,7 @@ _ViridianForestEndBattleTextPikaGirl::
 _ViridianForestAfterBattleTextPikaGirl::
 	text "I looked forever,"
 	line "but I never found"
-	cont "a PIKACHU here!"
+	cont "a CLEFAIRY here!"
 	done
 
 _ViridianForestBattleTextSamurai::

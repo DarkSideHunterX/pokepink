@@ -17,7 +17,7 @@ DebugTeam:
 	db SNORLAX,80
 	db PERSIAN,80
 	db JIGGLYPUFF,15
-	db PIKACHU,5
+	db CLEFAIRY,5
 	db $FF
 
 EmptyFunc:

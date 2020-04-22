@@ -629,7 +629,7 @@ TextCommandSounds::
 	db $10, SFX_GET_ITEM_2
 	db $11, SFX_GET_KEY_ITEM
 	db $13, SFX_TRADE_MACHINE
-	db $14, PIKACHU  ; used in OakSpeech
+	db $14, CLEFAIRY  ; used in OakSpeech
 	db $15, PIDGEOT  ; used in SaffronCityText12
 	db $16, DEWGONG  ; unused?
 
