@@ -1,7 +1,8 @@
 PYTHON := python
 pcm      := $(PYTHON) tools/pokemontools/pcm.py pcm
 
-rom := pokeyellow.gbc
+TARGET := pokepink
+rom := $(TARGET).gbc
 
 objs := audio.o main.o text.o wram.o
 
@@ -55,7 +56,7 @@ $(objs): %.o: %.asm $$(dep)
 opts = -cjsv -k 01 -l 0x33 -m 0x1b -p 0 -r 03 -t "POKEMON YELLOW"
 
 $(rom): $(objs)
-		$(RGBLINK) -n pokeyellow.sym -l pokeyellow.link -o $@ $^
+		$(RGBLINK) -n $(TARGET).sym -l $(TARGET).link -o $@ $^
 		$(RGBFIX) $(opts) $@
 		sort $(rom:.gbc=.sym) -o $(rom:.gbc=.sym)
 	
