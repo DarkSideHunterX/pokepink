@@ -1,4 +1,10 @@
-# Pokémon Yellow
+# Pokémon Pink
+
+A rom hack to try and replicate what Pokemon Pink could have been based on the little information we have. Join our discord: https://discord.gg/5PF4SNP
+
+This romhack is based off [pret/pokeyellow](https://github.com/pret/pokeyellow) reverse engineering project. You can see the original readme here:
+
+# Pokemon Yellow
 
 This is a disassembly of Pokémon Yellow.
 

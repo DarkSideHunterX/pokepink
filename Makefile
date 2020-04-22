@@ -22,14 +22,10 @@ RGBLINK ?= $(RGBDS)rgblink
 .SECONDEXPANSION:
 .PRECIOUS:
 .SECONDARY:
-.PHONY: all clean yellow tidy compare tools
+.PHONY: all clean yellow tidy tools
 
 all: $(rom)
 yellow: $(rom)
-
-# For contributors to make sure a change didn't affect the contents of the rom.
-compare: $(rom)
-	@$(MD5) roms.md5
 
 clean:
 	rm -f $(rom) $(objs) $(rom:.gbc=.sym)
