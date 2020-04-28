@@ -222,8 +222,8 @@ SuperPalettes:
 
 	; PAL_26
 	RGB 31, 31, 30
-	RGB 28, 23,  9
-	RGB 18, 14, 10
+	RGB 30, 14, 18
+	RGB 19,  8,  4
 	RGB  6,  6,  6
 
 	; PAL_27
@@ -456,8 +456,8 @@ GBCBasePalettes:
 
 	; PAL_26
 	RGB 31, 31, 31
-	RGB 31, 18,  0
-	RGB 19,  7,  1
+	RGB 30, 14, 18
+	RGB 19,  8,  4
 	RGB  3,  3,  3
 
 	; PAL_27
