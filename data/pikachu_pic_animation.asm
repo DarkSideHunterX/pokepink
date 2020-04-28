@@ -340,7 +340,7 @@ PikaPicAnimGFX_Null_id::
 	pikapicanimgfx -1, Pic_e411c     ; 03
 	pikapicanimgfx 10, GFX_e41d2     ; 04
 	pikapicanimgfx -1, Pic_e4272     ; 05
-	pikapicanimgfx  6, GFX_e4323     ; 06
+	pikapicanimgfx  8, GFX_e4323     ; 06
 	pikapicanimgfx -1, Pic_e4383     ; 07
 	pikapicanimgfx 20, GFX_e444b     ; 08
 	pikapicanimgfx -1, Pic_e458b     ; 09

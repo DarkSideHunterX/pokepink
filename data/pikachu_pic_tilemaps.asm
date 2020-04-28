@@ -128,7 +128,7 @@ PikaAnimTilemap_16:
 	db $00, $01, $ff, $ff, $ff
 	db $02, $03, $ff, $ff, $ff
 	db $04, $05, $ff, $ff, $ff
-	db $ff, $ff, $ff, $ff, $ff
+	db $06, $07, $ff, $ff, $ff
 	db $ff, $ff, $ff, $ff, $ff
 
 PikaAnimTilemap_17:
