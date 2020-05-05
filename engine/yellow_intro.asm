@@ -125,35 +125,8 @@ ExecuteCurrentSceneSubroutine:
 	call LoadSceneSubroutineAddress
 	jp hl
 
-; Super-uber hacky very temporary solution for disabling scenes--alignment matters here, too tired to look into it right now.
-; Will be fixed soon™️®️
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-dw 0
-
 ; Main intro scene jumptable
 SceneSubroutineJumptable:
-	;dw YellowIntroScene0 ; running pika 1
-	;dw YellowIntroScene1 ; wait last
-	;dw YellowIntroScene2 ; pikachu kick
-	;dw YellowIntroScene3 ; wait last
-	;dw YellowIntroScene4 ; running pika 2
-	;dw YellowIntroScene5 ; wait last
-	;dw YellowIntroScene6 ; surfing pika
-	;dw YellowIntroScene7 ; wait last
-	;dw YellowIntroScene8 ; running pika 3
-	;dw YellowIntroScene9 ; wait last
-	;dw YellowIntroScene10 ; flying pika
-	;dw YellowIntroScene11 ; wait last
 	dw YellowIntroScene12 ; pika close up
 	dw YellowIntroScene13 ; wait last
 	dw YellowIntroScene14 ; pika thunderbolt
@@ -874,11 +847,11 @@ InitYellowIntroGFXAndMusic:
 	call DelayFrame
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	ld de, $6b5a
+	ld de, YellowIntroGraphics + $800
 	ld hl, $8000
 	ld bc, $3eff
 	call CopyVideoData
-	ld de, $635a
+	ld de, YellowIntroGraphics
 	ld hl, $9000
 	ld bc, $3e80
 	call CopyVideoData
