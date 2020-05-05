@@ -29,14 +29,15 @@ PlayIntroScene: ; (located @ 3E:582D)
 
 	call RunObjectAnimations
 
-	; If wYellowIntroCurrentScene equals 7 (wait after surfing pika)
 	ld a, [wYellowIntroCurrentScene]
+
+	; If wYellowIntroCurrentScene equals 7 (surfing Pikachu scene)
 	cp $7
-	call z, Func_f98a2 ; TOOD: manipulates wOAMBuffer
+	call z, UpdateSurfingPikachuPalette
 	
 	; If wYellowIntroCurrentScene equals 11 (wait after flying pika)
 	cp $b
-	call z, Func_f98cb ; TODO: manipulates wOAMBuffer
+	call z, UpdateFlyingPikachuPalette ; TODO: manipulates wOAMBuffer
 	
 	call DelayFrame ; Wait for the next VBlank
 
@@ -68,40 +69,51 @@ PlayIntroScene: ; (located @ 3E:582D)
 	ld [H_AUTOBGTRANSFERENABLED], a
 	ret
 
-Func_f98a2:
+; Sets the palette of sprites 9, 15, 17, 19, and 20 to 1
+UpdateSurfingPikachuPalette:
 	ld a, [wOAMBuffer + 8 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 8 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 14 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 14 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 16 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 16 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 18 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 18 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 19 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 19 * 4 + 3], a
 	ret
 
-Func_f98cb:
+; Sets the palette of sprites 19, 20, 21, 26, 27, and 29 to 1
+UpdateFlyingPikachuPalette:
 	ld a, [wOAMBuffer + 18 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 18 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 19 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 19 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 20 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 20 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 25 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 25 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 26 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 26 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 28 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 28 * 4 + 3], a
