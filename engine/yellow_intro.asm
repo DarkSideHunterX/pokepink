@@ -1,4 +1,4 @@
-PlayIntroScene:
+PlayIntroScene: ; (located @ 3E:582D)
 	ld a, [rIE]
 	push af
 	xor a
@@ -10,24 +10,37 @@ PlayIntroScene:
 	call InitYellowIntroGFXAndMusic
 	call DelayFrame
 .loop
+	; If bit 7 of [wYellowIntroCurrentScene] is set, go to the title screen
+	; TODO: I assume this to be set when the last scene is done
 	ld a, [wYellowIntroCurrentScene]
 	bit 7, a
 	jr nz, .go_to_title_screen
+
+	; If the A, B, or start button is pressed, go to the title screen
 	call JoypadLowSensitivity
 	ld a, [hJoyPressed]
 	and A_BUTTON | B_BUTTON | START
 	jr nz, .go_to_title_screen
-	call Func_f98fc
+
+	call ExecuteCurrentSceneSubroutine
+
 	ld a, $0
 	ld [wCurrentAnimatedObjectOAMBufferOffset], a
+
 	call RunObjectAnimations
+
+	; If wYellowIntroCurrentScene equals 7 (wait after surfing pika)
 	ld a, [wYellowIntroCurrentScene]
 	cp $7
-	call z, Func_f98a2
+	call z, Func_f98a2 ; TOOD: manipulates wOAMBuffer
+	
+	; If wYellowIntroCurrentScene equals 11 (wait after flying pika)
 	cp $b
-	call z, Func_f98cb
-	call DelayFrame
-	jr .loop
+	call z, Func_f98cb ; TODO: manipulates wOAMBuffer
+	
+	call DelayFrame ; Wait for the next VBlank
+
+	jr .loop ; Continue the loop
 
 .go_to_title_screen
 	call YellowIntro_BlankPalettes
@@ -94,13 +107,14 @@ Func_f98cb:
 	ld [wOAMBuffer + 28 * 4 + 3], a
 	ret
 
-Func_f98fc:
+ExecuteCurrentSceneSubroutine:
 	ld a, [wYellowIntroCurrentScene]
-	ld hl, Jumptable_f9906
-	call Func_fa06e
+	ld hl, SceneSubroutineJumptable
+	call LoadSceneSubroutineAddress
 	jp hl
 
-Jumptable_f9906:
+; Main intro scene jumptable
+SceneSubroutineJumptable:
 	dw YellowIntroScene0 ; running pika 1
 	dw YellowIntroScene1 ; wait last
 	dw YellowIntroScene2 ; pikachu kick
@@ -1027,13 +1041,19 @@ Func_fa062:
 	ld [hl], a
 	ret
 
-Func_fa06e:
+; Loads the address of the scene subroutine into HL
+; A is the scene number
+; HL is the address of the jumptable
+LoadSceneSubroutineAddress:
 	ld e, a
 	ld d, $0
+
 	add hl, de
 	add hl, de
+
 	ld a, [hli]
 	ld h, [hl]
+
 	ld l, a
 	ret
 
