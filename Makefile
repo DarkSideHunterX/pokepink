@@ -53,7 +53,7 @@ endif
 $(objs): %.o: %.asm $$(dep)
 	$(RGBASM) -h -o $@ $*.asm
 
-opts = -cjsv -k 01 -l 0x33 -m 0x1b -p 0 -r 03 -t "POKEMON YELLOW"
+opts = -cjsv -k 01 -l 0x33 -m 0x1b -p 0 -r 03 -t "POKEMON PINK"
 
 $(rom): $(objs)
 		$(RGBLINK) -n $(TARGET).sym -l $(TARGET).link -o $@ $^
