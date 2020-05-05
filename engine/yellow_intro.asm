@@ -11,7 +11,7 @@ PlayIntroScene: ; (located @ 3E:582D)
 	call DelayFrame
 .loop
 	; If bit 7 of [wYellowIntroCurrentScene] is set, go to the title screen
-	; TODO: I assume this to be set when the last scene is done
+	; It is set by the last intro scene
 	ld a, [wYellowIntroCurrentScene]
 	bit 7, a
 	jr nz, .go_to_title_screen
