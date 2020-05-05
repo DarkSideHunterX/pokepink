@@ -125,20 +125,35 @@ ExecuteCurrentSceneSubroutine:
 	call LoadSceneSubroutineAddress
 	jp hl
 
+; Super-uber hacky very temporary solution for disabling scenes--alignment matters here, too tired to look into it right now.
+; Will be fixed soon™️®️
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+dw 0
+
 ; Main intro scene jumptable
 SceneSubroutineJumptable:
-	dw YellowIntroScene0 ; running pika 1
-	dw YellowIntroScene1 ; wait last
-	dw YellowIntroScene2 ; pikachu kick
-	dw YellowIntroScene3 ; wait last
-	dw YellowIntroScene4 ; running pika 2
-	dw YellowIntroScene5 ; wait last
-	dw YellowIntroScene6 ; surfing pika
-	dw YellowIntroScene7 ; wait last
-	dw YellowIntroScene8 ; running pika 3
-	dw YellowIntroScene9 ; wait last
-	dw YellowIntroScene10 ; flying pika
-	dw YellowIntroScene11 ; wait last
+	;dw YellowIntroScene0 ; running pika 1
+	;dw YellowIntroScene1 ; wait last
+	;dw YellowIntroScene2 ; pikachu kick
+	;dw YellowIntroScene3 ; wait last
+	;dw YellowIntroScene4 ; running pika 2
+	;dw YellowIntroScene5 ; wait last
+	;dw YellowIntroScene6 ; surfing pika
+	;dw YellowIntroScene7 ; wait last
+	;dw YellowIntroScene8 ; running pika 3
+	;dw YellowIntroScene9 ; wait last
+	;dw YellowIntroScene10 ; flying pika
+	;dw YellowIntroScene11 ; wait last
 	dw YellowIntroScene12 ; pika close up
 	dw YellowIntroScene13 ; wait last
 	dw YellowIntroScene14 ; pika thunderbolt
