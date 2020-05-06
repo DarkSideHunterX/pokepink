@@ -444,8 +444,8 @@ GBCBasePalettes:
 
 	; PAL_GAMEFREAK
 	RGB 31, 31, 31
-	RGB 31, 19,  0
-	RGB 19, 19,  0
+	RGB 31, 7,  7
+	RGB 31, 0,  0
 	RGB  3,  3,  3
 
 	; PAL_25

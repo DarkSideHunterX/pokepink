@@ -2,12 +2,12 @@ MOVE_GENGAR_RIGHT   EQU $00
 MOVE_GENGAR_LEFT    EQU $01
 MOVE_NIDORINO_RIGHT EQU $ff
 
-PlayIntro:
+PlayIntro: ; (located @ 10:5997)
 	xor a
 	ld [hJoyHeld], a
 	inc a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	call PlayShootingStar
+	call PlayShootingStar ; Debatable routine name--this also displays the three copyright notices.
 	callab PlayIntroScene
 	xor a
 	ld [hSCX], a
