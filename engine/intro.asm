@@ -90,75 +90,44 @@ ShowContributorsAndDisclaimer:
 	ld [rBGP], a
 	call UpdateGBCPal_BGP
 
-	coord hl, 4, 1
+	coord hl, 0, 2
 	ld de, .title
 	call PlaceString
 
-	coord hl, 6, 2
-	ld de, .basedon
+	coord hl, 0, 7
+	ld de, .pleasenodmca
 	call PlaceString
 
-	coord hl, 2, 3
-	ld de, .pret
-	call PlaceString
-
-	coord hl, 0, 6
-	ld de, .maintainer
-	call PlaceString
-
-	coord hl, 2, 7
-	ld de, .darksidehunterx
-	call PlaceString
-
-	coord hl, 0, 10
-	ld de, .graphics
-	call PlaceString
-
-	coord hl, 7, 11
-	ld de, .people
-	call PlaceString
-
-	coord hl, 0, 14
-	ld de, .programming
-	call PlaceString
-
-	coord hl, 7, 15
-	ld de, .people
-	call PlaceString
-
-	ld c, 240
+	ld c, 180
 	call DelayFrames
 
 	call ClearScreen
 
-	coord hl, 0, 6
-	ld de, .pleasenodmca
+	coord hl, 0, 7
+	ld de, .support
 	call PlaceString
 
-	ld c, 120
+	ld c, 180
 	call DelayFrames
 
 	ret
 .title:
-	db $54, "MON PINK@"
-.basedon:
-	db "based on@"
-.pret:
-	db "pret/pokeyellow@"
-.maintainer:
-	db "MAINTAINER@"
-.darksidehunterx:
-	db "DarkSideHunterX@"
-.graphics:
-	db "GRAPHICS@"
-.people:
-	db "PEOPLE@"
-.programming:
-	db "PROGRAMMING@"
+	db "    ", $54, "MON PINK    "
+	db "       forked       "
+	db "        from        "
+	db "   pret/pokeyellow@"
 .pleasenodmca:
-	db "    NO COPYRIGHT"
+	db "     THIS IS AN     "
+	db "     UNOFFICIAL     "
+	db "   FAN RECREATION"
+	next ""
+	next "    NO COPYRIGHT"
 	next "    INFRINGEMENT"
 	next "      INTENDED@"
+.support:
+	db "      Support       "
+	db "      official      "
+	db "      releases!@"
 
 PlayShootingStar:
 	callba LoadCopyrightAndTextBoxTiles
