@@ -312,12 +312,14 @@ GBCBasePalettes:
 	RGB  1,  1,  1
 
 	; PAL_LOGO1
-	dw $7fff, $7c2d, $3d36, $0c63
+	RGB 31, 31, 31
+	dw $7c2d, $3d36, $0c63
 	; it might be a good idea to convert these back to RGB15
 	; but I already had them as hex 
 
 	; PAL_LOGO2 (PoKeMoN text)
-	dw $7fff, $671e, $3d36, $20ae
+	RGB 31, 31, 31
+	dw $671e, $3d36, $20ae
 
 	; PAL_0F
 	RGB 31, 31, 31
@@ -326,7 +328,10 @@ GBCBasePalettes:
 	RGB  1,  1,  1
 
 	; PAL_MEWMON
-	dw $7fff, $671e, $19b5, $0c63
+	RGB 31, 31, 31
+	RGB 30, 24, 25
+	RGB 21, 13, 6
+	RGB 3, 3, 3
 
 	; PAL_BLUEMON
 	RGB 31, 31, 31
