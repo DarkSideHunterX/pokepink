@@ -1,6 +1,6 @@
 # Pokémon Pink
 
-A rom hack to try and replicate what Pokemon Pink could have been based on the little information we have. Join our discord: https://discord.gg/5PF4SNP
+A rom hack to try and replicate what Pokemon Pink could have been based on the little information we have. Join our discord: https://discord.gg/n3AYRA5
 
 This romhack is based off [pret/pokeyellow](https://github.com/pret/pokeyellow) reverse engineering project. You can see the original readme here:
 
