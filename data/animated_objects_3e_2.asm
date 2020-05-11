@@ -85,9 +85,9 @@ YellowIntro_AnimatedObjectOAMData:
 	dbw $06, Unkn_fa201
 	dbw $c6, Unkn_fa292
 	dbw $6d, Unkn_fa2f7
-	dbw $f0, Unkn_fa308
-	dbw $f4, Unkn_fa308
-	dbw $f8, Unkn_fa308
+	dbw $f0, ClefairyEyeOAMData
+	dbw $f4, ClefairyEyeOAMData
+	dbw $f8, ClefairyEyeOAMData
 	dbw $9c, Unkn_fa329
 	dbw $ec, Unkn_fa329
 
@@ -209,12 +209,16 @@ Unkn_fa2f7:
 	db $fc, $00, $01, $20
 	db $fc, $08, $00, $20
 
-Unkn_fa308:
+ClefairyEyeOAMData: ; Clefairy's eyes
 	db 8
-	db $f8, $e8, $00, $10
-	db $f8, $f0, $01, $10
-	db $00, $e8, $02, $10
-	db $00, $f0, $03, $10
+	; Left eye
+	; Y-off, X-off, tile-off, base attributes
+	db $f8, $e8 + $8, $00, $10
+	db $f8, $f0 + $8, $01, $10
+	db $00, $e8 + $8, $02, $10
+	db $00, $f0 + $8, $03, $10
+
+	; Right Eye
 	db $f8, $08, $01, $30
 	db $f8, $10, $00, $30
 	db $00, $08, $03, $30
