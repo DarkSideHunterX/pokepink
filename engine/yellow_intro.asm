@@ -37,8 +37,8 @@ PlayIntroScene: ; (located @ 3E:582D)
 	
 	; If wYellowIntroCurrentScene equals 11 (wait after flying pika)
 	cp $b
-	call z, UpdateFlyingPikachuPalette ; TODO: manipulates wOAMBuffer
-	
+	call z, UpdateFlyingPikachuPalette
+
 	call DelayFrame ; Wait for the next VBlank
 
 	jr .loop ; Continue the loop
@@ -139,6 +139,17 @@ YellowIntro_NextScene:
 	inc [hl]
 	ret
 
+; Tile ID table for the big clefairy in scene 12
+YellowIntroScene12TileTable:
+	db $00, $08, $09, $0a, $0b, $0c, $0d, $0e, $0f, $0a, $09, $08, $00
+	db $00, $18, $19, $1a, $1b, $1c, $1d, $1e, $1f, $1a, $19, $18, $00
+	db $00, $29, $2a, $03, $2b, $2c, $2d, $2e, $2f, $03, $2a, $29, $00
+	db $00, $00, $3b, $03, $3c, $3d, $3e, $3f, $03, $03, $3b, $00, $00
+	db $4d, $4e, $4f, $03, $03, $03, $03, $03, $03, $03, $4f, $4e, $4d
+	db $5b, $5c, $03, $03, $5d, $5e, $5f, $5e, $5d, $03, $03, $5c, $5b
+	db $6b, $6c, $6d, $03, $03, $6e, $6f, $6e, $03, $03, $6d, $6c, $6b
+	db $00, $7d, $7e, $7f, $03, $03, $03, $03, $03, $7f, $7e, $7d, $79
+
 YellowIntroScene12:
 	call YellowIntro_BlankPalsDelay2AndDisableLCD ; Changes palettes 'n' stuff
 
@@ -164,21 +175,24 @@ YellowIntroScene12:
 	ld a, $1
 	call Bank3E_FillMemory
 
-	ld hl, $98c4 	; Starting address
-	ld de, $20		; Increment
-	ld a, 3			; Starting tile
-	ld b, 8			; Height (in tiles) of graphic
+	ld hl, $98c3 	; Starting address
+	ld de, YellowIntroScene12TileTable
+	ld b, $8		; Height of the Clefairy
 .row
-	ld c, 13		; Width of graphic
+	ld c, $d		; Width
 	push hl
 .col
+	ld a, [de]
 	ld [hli], a
-	inc a
+	inc de
 	dec c
 	jr nz, .col
+
 	pop hl
-	add hl, de
-	add $3
+	push bc
+	ld bc, $20
+	add hl, bc
+	pop bc
 	dec b
 	jr nz, .row
 
@@ -188,6 +202,8 @@ YellowIntroScene12:
 	call YellowIntro_SpawnAnimatedObjectAndSavePointer
 	xor a
 	call Func_f9e9a
+	ld c, $e
+	callba LoadBGMapAttributes
 	call YellowIntro_SetTimerFor128Frames
 	call YellowIntro_NextScene
 	ret
@@ -399,11 +415,11 @@ YellowIntro_BlankPalsDelay2AndDisableLCD:
 	ret
 
 Func_f9e9a:
-	ld e, a
+	ld e, a ; e = 0
 	callab YellowIntroPaletteAction
 
 	; Clefairy is 13 tiles wide, we need to offset everything by 4 pixels in order for it to be centered.
-	ld a, 4
+	ld a, -4
 	ld [hSCX], a
 
 	xor a
@@ -483,17 +499,10 @@ InitYellowIntroGFXAndMusic:
 	call DelayFrame
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	ld de, YellowIntroGraphics + $800
-	ld hl, $8000
-	ld bc, $3eff
-	call CopyVideoData
-	ld de, YellowIntroGraphics
-	ld hl, $9000
-	ld bc, $3e80
-	call CopyVideoData
+	call LoadYellowIntroGraphics
 	call ClearObjectAnimationBuffers
 	call LoadYellowIntroObjectAnimationDataPointers
-	ld b, $8
+	ld b, $10
 	call RunPaletteCommand
 	xor a
 	ld hl, wYellowIntroCurrentScene
@@ -504,6 +513,17 @@ InitYellowIntroGFXAndMusic:
 	ld a, MUSIC_INTRO_BATTLE
 	ld c, BANK(Music_IntroBattle)
 	call PlayMusic
+	ret
+
+LoadYellowIntroGraphics:
+	ld de, YellowIntroGraphics + $800
+	ld hl, $8000
+	ld bc, $3eff
+	call CopyVideoData
+	ld de, YellowIntroGraphics
+	ld hl, $9000
+	ld bc, $3e80
+	call CopyVideoData
 	ret
 
 LoadYellowIntroObjectAnimationDataPointers:
