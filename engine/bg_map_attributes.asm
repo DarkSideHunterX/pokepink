@@ -2,7 +2,7 @@ INCLUDE "data/bg_map_attributes.asm"
 
 LoadBGMapAttributes::
 	ld hl, BGMapAttributesPointers
-	ld a, c ; c = which packet
+	ld a, c ; c = which packet, one-indexed
 	push af ; save for later (to determine if we're handling the trainer card or party menu)
 	dec a         ; read this code as:
 	add a         ;	dec a
@@ -119,6 +119,7 @@ BGMapAttributesPointers:
 	dw BGMapAttributes_Battle
 	dw BGMapAttributes_WholeScreen
 	dw BGMapAttributes_Unknown13
+	dw BGMapAttributes_ClefairyCloseUp
 
 HandleBadgeFaceAttributes:
 ; zero out the attributes if the player doesn't have the respective badge

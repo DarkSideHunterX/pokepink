@@ -265,6 +265,11 @@ SendUnknownPalPacket_72064::
 	ld de, UnknownPacket_72751
 	ret
 
+SetPal_ClefairyCloseUp:
+	ld hl, PalPacket_Generic
+	ld de, BlkPacket_WholeScreen
+	ret
+
 SetPalFunctions:
 	dw SetPal_Black
 	dw SetPal_Battle
@@ -282,6 +287,7 @@ SetPalFunctions:
 	dw SetPal_TrainerCard
 	dw SendUnknownPalPacket_7205d
 	dw SendUnknownPalPacket_72064
+	dw SetPal_ClefairyCloseUp
 
 ; The length of the blk data of each badge on the Trainer Card.
 ; The Rainbow Badge has 3 entries because of its many colors.
@@ -317,7 +323,7 @@ YellowIntroPaletteAction::
 	ld a, e
 	and a
 	jr nz, .asm_720bd
-	ld hl, PalPacket_Generic
+	ld hl, PalPacket_ClefairyAnimation
 	ld a, [hGBC]
 	and a
 	jp z, SendSGBPacket
@@ -329,7 +335,7 @@ YellowIntroPaletteAction::
 	and a
 	jp z, SendSGBPacket
 	call InitGBCPalettes
-	ld hl, PalPacket_Generic
+	ld hl, PalPacket_ClefairyAnimation
 	inc hl
 	ld a, [hli]
 	call GetGBCBasePalAddress

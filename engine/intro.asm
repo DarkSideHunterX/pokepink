@@ -2,12 +2,13 @@ MOVE_GENGAR_RIGHT   EQU $00
 MOVE_GENGAR_LEFT    EQU $01
 MOVE_NIDORINO_RIGHT EQU $ff
 
-PlayIntro:
+PlayIntro: ; (located @ 10:5997)
 	xor a
 	ld [hJoyHeld], a
 	inc a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	call PlayShootingStar
+	call ShowContributorsAndDisclaimer
+	call PlayShootingStar ; Debatable routine name--this also displays the three copyright notices.
 	callab PlayIntroScene
 	xor a
 	ld [hSCX], a
@@ -76,13 +77,72 @@ CopyTileIDsFromList_ZeroBaseTileID:
 	ld c, 0
 	predef_jump CopyTileIDsFromList
 
-PlayShootingStar:
+ShowContributorsAndDisclaimer:
 	ld b, SET_PAL_GAME_FREAK_INTRO
 	call RunPaletteCommand
-	callba LoadCopyrightAndTextBoxTiles
+	
+	; Thanks @Zumilsawhat?#5982!
+    call DisableLCD
+    xor a
+	ld [hWY], a
+    ld hl, vChars2          ; tile $00
+    ld de, vChars2 + $7f0   ; tile $7f
+    ld c, $10
+.clearboth_emptytiles
+    ld [hli], a
+    ld [de], a
+    inc de
+    dec c
+    jr nz, .clearboth_emptytiles
+    call EnableLCD
+
+	call LoadFontTilePatterns
+
 	ld a, %11100100
 	ld [rBGP], a
 	call UpdateGBCPal_BGP
+
+	coord hl, 0, 2
+	ld de, .title
+	call PlaceString
+
+	coord hl, 0, 7
+	ld de, .pleasenodmca
+	call PlaceString
+
+	ld c, 180
+	call DelayFrames
+
+	call ClearScreen
+
+	coord hl, 0, 7
+	ld de, .support
+	call PlaceString
+
+	ld c, 180
+	call DelayFrames
+
+	ret
+.title:
+	db "    ", $54, "MON PINK    "
+	db "       forked       "
+	db "        from        "
+	db "   pret/pokeyellow@"
+.pleasenodmca:
+	db "     THIS IS AN     "
+	db "     UNOFFICIAL     "
+	db "   FAN RECREATION"
+	next ""
+	next "    NO COPYRIGHT"
+	next "    INFRINGEMENT"
+	next "      INTENDED@"
+.support:
+	db "      Support       "
+	db "      official      "
+	db "      releases!@"
+
+PlayShootingStar:
+	callba LoadCopyrightAndTextBoxTiles
 	ld c, 180
 	call DelayFrames
 	call ClearScreen

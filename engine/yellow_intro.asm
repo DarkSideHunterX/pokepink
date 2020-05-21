@@ -1,4 +1,4 @@
-PlayIntroScene:
+PlayIntroScene: ; (located @ 3E:582D)
 	ld a, [rIE]
 	push af
 	xor a
@@ -10,24 +10,38 @@ PlayIntroScene:
 	call InitYellowIntroGFXAndMusic
 	call DelayFrame
 .loop
+	; If bit 7 of [wYellowIntroCurrentScene] is set, go to the title screen
+	; It is set by the last intro scene
 	ld a, [wYellowIntroCurrentScene]
 	bit 7, a
 	jr nz, .go_to_title_screen
+
+	; If the A, B, or start button is pressed, go to the title screen
 	call JoypadLowSensitivity
 	ld a, [hJoyPressed]
 	and A_BUTTON | B_BUTTON | START
 	jr nz, .go_to_title_screen
-	call Func_f98fc
+
+	call ExecuteCurrentSceneSubroutine
+
 	ld a, $0
 	ld [wCurrentAnimatedObjectOAMBufferOffset], a
+
 	call RunObjectAnimations
+
 	ld a, [wYellowIntroCurrentScene]
+
+	; If wYellowIntroCurrentScene equals 7 (surfing Pikachu scene)
 	cp $7
-	call z, Func_f98a2
+	call z, UpdateSurfingPikachuPalette
+	
+	; If wYellowIntroCurrentScene equals 11 (wait after flying pika)
 	cp $b
-	call z, Func_f98cb
-	call DelayFrame
-	jr .loop
+	call z, UpdateFlyingPikachuPalette
+
+	call DelayFrame ; Wait for the next VBlank
+
+	jr .loop ; Continue the loop
 
 .go_to_title_screen
 	call YellowIntro_BlankPalettes
@@ -55,64 +69,64 @@ PlayIntroScene:
 	ld [H_AUTOBGTRANSFERENABLED], a
 	ret
 
-Func_f98a2:
+; Sets the palette of sprites 9, 15, 17, 19, and 20 to 1
+UpdateSurfingPikachuPalette:
 	ld a, [wOAMBuffer + 8 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 8 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 14 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 14 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 16 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 16 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 18 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 18 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 19 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 19 * 4 + 3], a
 	ret
 
-Func_f98cb:
+; Sets the palette of sprites 19, 20, 21, 26, 27, and 29 to 1
+UpdateFlyingPikachuPalette:
 	ld a, [wOAMBuffer + 18 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 18 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 19 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 19 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 20 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 20 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 25 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 25 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 26 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 26 * 4 + 3], a
+
 	ld a, [wOAMBuffer + 28 * 4 + 3]
 	or $1
 	ld [wOAMBuffer + 28 * 4 + 3], a
 	ret
 
-Func_f98fc:
+ExecuteCurrentSceneSubroutine:
 	ld a, [wYellowIntroCurrentScene]
-	ld hl, Jumptable_f9906
-	call Func_fa06e
+	ld hl, SceneSubroutineJumptable
+	call LoadSceneSubroutineAddress
 	jp hl
 
-Jumptable_f9906:
-	dw YellowIntroScene0 ; running pika 1
-	dw YellowIntroScene1 ; wait last
-	dw YellowIntroScene2 ; pikachu kick
-	dw YellowIntroScene3 ; wait last
-	dw YellowIntroScene4 ; running pika 2
-	dw YellowIntroScene5 ; wait last
-	dw YellowIntroScene6 ; surfing pika
-	dw YellowIntroScene7 ; wait last
-	dw YellowIntroScene8 ; running pika 3
-	dw YellowIntroScene9 ; wait last
-	dw YellowIntroScene10 ; flying pika
-	dw YellowIntroScene11 ; wait last
+; Main intro scene jumptable
+SceneSubroutineJumptable:
 	dw YellowIntroScene12 ; pika close up
 	dw YellowIntroScene13 ; wait last
 	dw YellowIntroScene14 ; pika thunderbolt
@@ -125,425 +139,71 @@ YellowIntro_NextScene:
 	inc [hl]
 	ret
 
-YellowIntroScene0:
-	xor a
-	ld [hLCDCPointer], a
-	lb de, $58, $58
-	ld a, $1
-	call YellowIntro_SpawnAnimatedObjectAndSavePointer
-	xor a
-	ld [hSCX], a
-	ld [hSCY], a
-	ld a, $90
-	ld [hWY], a
-	ld a, $e4
-	ld [rBGP], a
-	ld [rOBP0], a
-	ld a, $c4
-	ld [rOBP1], a
-	call UpdateGBCPal_BGP
-	call UpdateGBCPal_OBP0
-	call UpdateGBCPal_OBP1
-	ld a, 130
-	ld [wYellowIntroSceneTimer], a
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene1:
-	call YellowIntro_CheckFrameTimerDecrement
-	ret nc
-	call YellowIntro_MaskCurrentAnimatedObjectStruct
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene2:
-	call YellowIntro_BlankPalsDelay2AndDisableLCD
-	ld c, $8
-	call UpdateMusicCTimes
-	xor a
-	ld [hLCDCPointer], a
-	ld hl, vBGMap0
-	ld bc, $400
-	xor a
-	call Bank3E_FillMemory
-	call YellowIntroScene2_PlaceGraphic
-	lb de, $58, $b8 ; overloaded
-	ld a, $4 ; overloaded
-	call LoadYellowIntroFlyingSpeedBars
-	ld a, $1
-	call Func_f9e9a
-	call YellowIntro_SetTimerFor128Frames
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene2_PlaceGraphic:
-	ld hl, $98d4 ; (20, 6)
-	ld de, $20
-	ld b, $6
-	ld a, $90
-.row
-	ld c, $6
-	push af
-	push hl
-.col
-	ld [hli], a
-	inc a
-	dec c
-	jr nz, .col
-	pop hl
-	add hl, de
-	pop af
-	add $10
-	dec b
-	jr nz, .row
-	ld a, [hGBC]
-	and a
-	jr z, .dmg_sgb
-	; We can actually set palettes!
-	ld hl, $98d4 ; (20, 6)
-	ld de, $20
-	ld b, $6
-	ld a, $1
-	ld [rVBK], a
-.attr_row
-	ld c, $6
-	push hl
-.attr_col
-	ld [hli], a
-	dec c
-	jr nz, .attr_col
-	pop hl
-	add hl, de
-	dec b
-	jr nz, .attr_row
-	xor a
-	ld [rVBK], a
-.dmg_sgb
-	ret
-
-LoadYellowIntroFlyingSpeedBars:
-	ld hl, YellowIntroFlyingSpeedBarData
-	ld a, $8
-.loop
-; Spawn object $8 at indicated coordinates with indicated speeds
-	push af
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	inc hl
-	ld a, [hli]
-	push hl
-	push af
-	ld a, $8
-	call SpawnAnimatedObject
-	pop af
-	ld hl, $b
-	add hl, bc
-	ld [hl], a
-	pop hl
-	pop af
-	dec a
-	jr nz, .loop
-	ret
-
-YellowIntroFlyingSpeedBarData:
-	; y, x, speed
-	db $d0, $20, $02
-	db $f0, $30, $04
-	db $d0, $40, $06
-	db $c0, $50, $08
-	db $e0, $60, $08
-	db $c0, $70, $06
-	db $e0, $80, $04
-	db $f0, $90, $02
-
-YellowIntroScene3:
-	call YellowIntro_CheckFrameTimerDecrement
-	jr c, .expired
-	ld a, [hSCX]
-	cp $68
-	ret z
-	add $4
-	ld [hSCX], a
-	ret
-
-.expired
-	call MaskAllAnimatedObjectStructs
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene4:
-	call YellowIntro_BlankPalsDelay2AndDisableLCD
-	ld c, $5
-	call UpdateMusicCTimes
-	ld a, [hGBC]
-	and a
-	jr z, .dmg_sgb
-	; We can actually set palettes!
-	ld hl, $98d4
-	ld de, $20
-	ld b, $6
-	ld a, $1
-	ld [rVBK], a
-	xor a
-.attr_row
-	ld c, $6
-	push hl
-.attr_col
-	ld [hli], a
-	dec c
-	jr nz, .attr_col
-	pop hl
-	add hl, de
-	dec b
-	jr nz, .attr_row
-	xor a
-	ld [rVBK], a
-.dmg_sgb
-	xor a
-	ld [hLCDCPointer], a
-	call Func_f9e5f
-	lb de, $58, $58
-	ld a, $2
-	call YellowIntro_SpawnAnimatedObjectAndSavePointer
-	xor a
-	call Func_f9e9a
-	call YellowIntro_SetTimerFor128Frames
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene5:
-	call YellowIntro_CheckFrameTimerDecrement
-	ret nc
-	call YellowIntro_MaskCurrentAnimatedObjectStruct
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene6:
-	call YellowIntro_BlankPalsDelay2AndDisableLCD
-	ld c, $5
-	call UpdateMusicCTimes
-	ld a, rSCY - $ff00
-	ld [hLCDCPointer], a
-	call YellowIntro_Copy8BitSineWave
-	ld hl, vBGMap0
-	ld bc, $60
-	xor a
-	call Bank3E_FillMemory
-	ld hl, $9860
-	ld c, $10
-	ld a, $20
-.asm_f9a8b
-	ld [hli], a
-	inc a
-	ld [hli], a
-	dec a
-	dec c
-	jr nz, .asm_f9a8b
-	ld hl, $9880
-	ld bc, $300
-	ld a, $10
-	call Bank3E_FillMemory
-	lb de, $40, $f8
-	ld a, $5
-	call YellowIntro_SpawnAnimatedObjectAndSavePointer
-	ld a, $1
-	call Func_f9e9a
-	call YellowIntro_SetTimerFor88Frames
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene7:
-	call YellowIntro_CheckFrameTimerDecrement
-	jr c, .expired
-	ld hl, hSCX
-	inc [hl]
-	inc [hl]
-	ld hl, wLYOverridesBuffer
-	ld de, wLYOverridesBuffer + 1
-	ld a, [hl]
-	push af
-	ld c, $ff
-.shift_loop
-	ld a, [de]
-	inc de
-	ld [hli], a
-	dec c
-	jr nz, .shift_loop
-	pop af
-	ld [hl], a
-	call Request7TileTransferFromC810ToC710
-	ret
-
-.expired
-	call YellowIntro_MaskCurrentAnimatedObjectStruct
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene8:
-	call YellowIntro_BlankPalsDelay2AndDisableLCD
-	ld c, $5
-	call UpdateMusicCTimes
-	xor a
-	ld [hLCDCPointer], a
-	call Func_f9e5f
-	lb de, $58, $58
-	ld a, $3
-	call YellowIntro_SpawnAnimatedObjectAndSavePointer
-	xor a
-	call Func_f9e9a
-	call YellowIntro_SetTimerFor128Frames
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene9:
-	call YellowIntro_CheckFrameTimerDecrement
-	ret nc
-	call YellowIntro_MaskCurrentAnimatedObjectStruct
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroScene10:
-	call YellowIntro_BlankPalsDelay2AndDisableLCD
-	ld c, $5
-	call UpdateMusicCTimes
-	xor a
-	ld [hLCDCPointer], a
-	ld hl, vBGMap0
-	ld bc, $400
-	xor a
-	call Bank3E_FillMemory
-	ld hl, vBGMap0
-	ld bc, $100
-	ld a, $2
-	call Bank3E_FillMemory
-	ld hl, $9900
-	ld de, Unkn_f9b6e
-	lb bc, 6, 20
-	call .FillBGMapBox
-	ld hl, $988c
-	ld de, Unkn_f9be6
-	lb bc, 3, 4
-	call .FillBGMapBox
-	ld hl, $98e3
-	ld de, Unkn_f9bf2
-	lb bc, 2, 2
-	call .FillBGMapBox
-	lb de, $98, $58
-	ld a, $6
-	call YellowIntro_SpawnAnimatedObjectAndSavePointer
-	ld a, $1
-	call Func_f9e9a
-	call YellowIntro_SetTimerFor128Frames
-	call YellowIntro_NextScene
-	ret
-
-.FillBGMapBox:
-.fill_row
-	push bc
-	push hl
-.fill_col
-	ld a, [de]
-	inc de
-	ld [hli], a
-	dec c
-	jr nz, .fill_col
-	pop hl
-	ld bc, $20
-	add hl, bc
-	pop bc
-	dec b
-	jr nz, .fill_row
-	ret
-
-Unkn_f9b6e: INCBIN "gfx/unknown_f9b6e.map"
-Unkn_f9be6: INCBIN "gfx/unknown_f9be6.map"
-Unkn_f9bf2: INCBIN "gfx/unknown_f9bf2.map"
-
-YellowIntroScene11:
-	call YellowIntro_CheckFrameTimerDecrement
-	jr c, .expired
-	ld a, [wYellowIntroSceneTimer]
-	and $7
-	ret nz
-	ld a, [wYellowIntroSceneTimer]
-	and $8
-	sla a
-	sla a
-	sla a
-	ld e, a
-	ld d, $0
-	ld hl, YellowIntroCloudGFX1
-	add hl, de
-	ld a, l
-	ld [H_VBCOPYSRC], a
-	ld a, h
-	ld [H_VBCOPYSRC + 1], a
-	xor a
-	ld [H_VBCOPYDEST], a
-	ld a, $96
-	ld [H_VBCOPYDEST + 1], a
-	ld a, $4
-	ld [H_VBCOPYSIZE], a
-	ret
-
-.expired
-	call YellowIntro_MaskCurrentAnimatedObjectStruct
-	call YellowIntro_NextScene
-	ret
-
-YellowIntroCloudGFX1: INCBIN "gfx/unknown_f9c2c.2bpp"
-YellowIntroCloudGFX2: INCBIN "gfx/unknown_f9c6c.2bpp" ; indirectly referenced
+; Tile ID table for the big clefairy in scene 12
+YellowIntroScene12TileTable:
+	db $00, $08, $09, $0a, $0b, $0c, $0d, $0e, $0f, $0a, $09, $08, $00
+	db $00, $18, $19, $1a, $1b, $1c, $1d, $1e, $1f, $1a, $19, $18, $00
+	db $00, $29, $2a, $03, $2b, $2c, $2d, $2e, $2f, $03, $2a, $29, $00
+	db $00, $00, $3b, $03, $3c, $3d, $3e, $3f, $03, $03, $3b, $00, $00
+	db $4d, $4e, $4f, $03, $03, $03, $03, $03, $03, $03, $4f, $4e, $4d
+	db $5b, $5c, $03, $03, $5d, $5e, $5f, $5e, $5d, $03, $03, $5c, $5b
+	db $6b, $6c, $6d, $03, $03, $6e, $6f, $6e, $03, $03, $6d, $6c, $6b
+	db $00, $7d, $7e, $7f, $03, $03, $03, $03, $03, $7f, $7e, $7d, $79
 
 YellowIntroScene12:
-	call YellowIntro_BlankPalsDelay2AndDisableLCD
+	call YellowIntro_BlankPalsDelay2AndDisableLCD ; Changes palettes 'n' stuff
+
 	ld c, $5
 	call UpdateMusicCTimes
+
 	xor a
 	ld [hLCDCPointer], a
+
+	; Clear memory
 	ld hl, vBGMap0
 	ld bc, $80
 	ld a, $1
 	call Bank3E_FillMemory
+
 	ld hl, $9880
 	ld bc, $140
 	xor a
 	call Bank3E_FillMemory
+
 	ld hl, $99c0
 	ld bc, $80
 	ld a, $1
 	call Bank3E_FillMemory
 
-	; paste 8x12 graphic into vBGMap0 at (5, 6) starting at tile 4, skipping 4 vtiles at the end of each row
-	ld hl, $98c5
-	ld de, $20
-	ld a, $4
-	ld b, 8
+	ld hl, $98c3 	; Starting address
+	ld de, YellowIntroScene12TileTable
+	ld b, $8		; Height of the Clefairy
 .row
-	ld c, 12
+	ld c, $d		; Width
 	push hl
 .col
+	ld a, [de]
 	ld [hli], a
-	inc a
+	inc de
 	dec c
 	jr nz, .col
+
 	pop hl
-	add hl, de
-	add $4
+	push bc
+	ld bc, $20
+	add hl, bc
+	pop bc
 	dec b
 	jr nz, .row
 
-	ld hl, $98c4 ; (4, 6)
-	ld [hl], $3
-	ld hl, $98e4 ; (4, 7)
-	ld [hl], $74
-	ld hl, $99a5 ; (5, 5)
-	ld [hl], $0
-	lb de, $60, $58
+	; lb de, y-coord, x-coord
+	lb de, $68, $54
 	ld a, $9
 	call YellowIntro_SpawnAnimatedObjectAndSavePointer
 	xor a
 	call Func_f9e9a
+	ld c, $e
+	callba LoadBGMapAttributes
 	call YellowIntro_SetTimerFor128Frames
 	call YellowIntro_NextScene
 	ret
@@ -755,10 +415,14 @@ YellowIntro_BlankPalsDelay2AndDisableLCD:
 	ret
 
 Func_f9e9a:
-	ld e, a
+	ld e, a ; e = 0
 	callab YellowIntroPaletteAction
-	xor a
+
+	; Clefairy is 13 tiles wide, we need to offset everything by 4 pixels in order for it to be centered.
+	ld a, -4
 	ld [hSCX], a
+
+	xor a
 	ld [hSCY], a
 	ld a, $90
 	ld [hWY], a
@@ -769,9 +433,11 @@ Func_f9e9a:
 	ld [rOBP0], a
 	ld a, $e0
 	ld [rOBP1], a
+
 	call UpdateGBCPal_BGP
 	call UpdateGBCPal_OBP0
 	call UpdateGBCPal_OBP1
+
 	ret
 
 YellowIntro_Copy8BitSineWave:
@@ -833,14 +499,7 @@ InitYellowIntroGFXAndMusic:
 	call DelayFrame
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	ld de, $6b5a
-	ld hl, $8000
-	ld bc, $3eff
-	call CopyVideoData
-	ld de, $635a
-	ld hl, $9000
-	ld bc, $3e80
-	call CopyVideoData
+	call LoadYellowIntroGraphics
 	call ClearObjectAnimationBuffers
 	call LoadYellowIntroObjectAnimationDataPointers
 	ld b, $8
@@ -854,6 +513,17 @@ InitYellowIntroGFXAndMusic:
 	ld a, MUSIC_INTRO_BATTLE
 	ld c, BANK(Music_IntroBattle)
 	call PlayMusic
+	ret
+
+LoadYellowIntroGraphics:
+	ld de, YellowIntroGraphics + $800
+	ld hl, $8000
+	ld bc, $3eff
+	call CopyVideoData
+	ld de, YellowIntroGraphics
+	ld hl, $9000
+	ld bc, $3e80
+	call CopyVideoData
 	ret
 
 LoadYellowIntroObjectAnimationDataPointers:
@@ -893,6 +563,7 @@ Bank3E_CopyData:
 	jr nz, .loop
 	ret
 
+; Loads BC bytes with the value of A starting at address HL
 Bank3E_FillMemory:
 	push de
 	ld e, a
@@ -1027,13 +698,19 @@ Func_fa062:
 	ld [hl], a
 	ret
 
-Func_fa06e:
+; Loads the address of the scene subroutine into HL
+; A is the scene number
+; HL is the address of the jumptable
+LoadSceneSubroutineAddress:
 	ld e, a
 	ld d, $0
+
 	add hl, de
 	add hl, de
+
 	ld a, [hli]
 	ld h, [hl]
+
 	ld l, a
 	ret
 
