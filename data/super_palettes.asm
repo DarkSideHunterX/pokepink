@@ -470,3 +470,8 @@ GBCBasePalettes:
 	RGB  9,  9,  9
 	RGB 31, 21,  0
 	RGB  3,  3,  3
+
+	RGB 31, 31, 31
+	RGB 30, 24, 25
+	RGB 22, 9, 15
+	RGB 03, 03, 03

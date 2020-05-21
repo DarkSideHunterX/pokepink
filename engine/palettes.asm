@@ -323,7 +323,7 @@ YellowIntroPaletteAction::
 	ld a, e
 	and a
 	jr nz, .asm_720bd
-	ld hl, PalPacket_Generic
+	ld hl, PalPacket_ClefairyAnimation
 	ld a, [hGBC]
 	and a
 	jp z, SendSGBPacket
@@ -335,7 +335,7 @@ YellowIntroPaletteAction::
 	and a
 	jp z, SendSGBPacket
 	call InitGBCPalettes
-	ld hl, PalPacket_Generic
+	ld hl, PalPacket_ClefairyAnimation
 	inc hl
 	ld a, [hli]
 	call GetGBCBasePalAddress
