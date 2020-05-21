@@ -80,10 +80,22 @@ CopyTileIDsFromList_ZeroBaseTileID:
 ShowContributorsAndDisclaimer:
 	ld b, SET_PAL_GAME_FREAK_INTRO
 	call RunPaletteCommand
-
-	xor a
-	ld [hWY], a
 	
+	; Thanks @Zumilsawhat?#5982!
+    call DisableLCD
+    xor a
+	ld [hWY], a
+    ld hl, vChars2          ; tile $00
+    ld de, vChars2 + $7f0   ; tile $7f
+    ld c, $10
+.clearboth_emptytiles
+    ld [hli], a
+    ld [de], a
+    inc de
+    dec c
+    jr nz, .clearboth_emptytiles
+    call EnableLCD
+
 	call LoadFontTilePatterns
 
 	ld a, %11100100
