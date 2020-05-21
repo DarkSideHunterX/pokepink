@@ -502,7 +502,7 @@ InitYellowIntroGFXAndMusic:
 	call LoadYellowIntroGraphics
 	call ClearObjectAnimationBuffers
 	call LoadYellowIntroObjectAnimationDataPointers
-	ld b, $10
+	ld b, $8
 	call RunPaletteCommand
 	xor a
 	ld hl, wYellowIntroCurrentScene
